@@ -1,6 +1,5 @@
 <template>
   <div class="v-auth-page">
-    v-auth-page
     <VAuthForm/>
   </div>
 </template>
@@ -17,5 +16,8 @@ export default {
 </script>
 
 <style scoped>
-
+.v-auth-page {
+  display: flex;
+  height: 100%;
+}
 </style>

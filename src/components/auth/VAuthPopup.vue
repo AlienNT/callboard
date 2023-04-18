@@ -137,18 +137,5 @@ export default {
     color: #3f6fa2;
   }
 }
-.submit {
-  display: block;
-  border: none;
-  background: #3f6fa2;
-  border-radius: 5px;
-  color: #cfecfc;
-  padding: 5px 10px;
-  font-size: 14px;
-  cursor: pointer;
-}
-[disabled] {
-  opacity: 0.5;
-  cursor: default;
-}
+
 </style>

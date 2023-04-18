@@ -17,8 +17,20 @@ ul, ol {
   list-style: none;
 }
 
+label, input {
+  width: 100%;
+  display: block;
+  border: none;
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+
 .container {
   max-width: 1200px;
+  width: 100%;
   margin: auto;
   padding-left: 15px;
   padding-right: 15px;
@@ -103,6 +115,7 @@ ul, ol {
 .product__image {
   width: 100%;
   max-width: 400px;
+
   .img-wrapper {
     position: relative;
     width: 0;
@@ -139,4 +152,20 @@ ul, ol {
     font-family: monospace;
     font-size: 24px;
   }
+}
+
+.submit {
+  display: block;
+  border: none;
+  background: #3f6fa2;
+  border-radius: 5px;
+  color: #cfecfc;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+[disabled] {
+  opacity: 0.5;
+  cursor: default;
 }

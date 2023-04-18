@@ -38,14 +38,16 @@ export default {
   height: 100vh;
 }
 
-.header-wrapper {
-
-}
-
 .content-wrapper {
   overflow-y: auto;
   flex: auto;
   padding-top: 15px;
   padding-bottom: 30px;
+  display: flex;
+  height: 100%;
+  .container {
+    height: 100%;
+  }
 }
+
 </style>

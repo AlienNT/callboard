@@ -83,8 +83,19 @@ export default {
     toggleSignIn() {
       this.isShow = !this.isShow
     },
-    logout () {
+    logout() {
       this.$store.dispatch('logout')
+    }
+  },
+  watch: {
+    user: {
+      handler(e) {
+        console.log(e)
+        if (e.name && this.$route.fullPath === '/auth') {
+          this.$router.push('/')
+        }
+      },
+      immediate: true
     }
   }
 }
@@ -103,6 +114,7 @@ export default {
   gap: 10px;
   color: #78a6d5;
 }
+
 .logout {
   background: #78a6d5;
   mask-image: url("../../assets/images/logout-svgrepo-com.svg");
@@ -118,6 +130,7 @@ export default {
   color: #cccccc;
   border-radius: 5px;
 }
+
 .sign-in {
   cursor: pointer;
 }
@@ -139,6 +152,7 @@ export default {
     background: #000;
   }
 }
+
 .unauthorized {
   mask-image: url("../../assets/images/user-circle-svgrepo-com.svg");
   position: relative;
@@ -146,6 +160,7 @@ export default {
   mask-repeat: no-repeat;
   mask-position: center;
 }
+
 .short-name {
   font-weight: 900;
   font-size: 14px;
