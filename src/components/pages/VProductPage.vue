@@ -95,7 +95,7 @@ export default {
     shortName() {
       const words = this.name.split(' ')
       if (this.name) {
-        return words.length > 1 ? words.map(word => word[0].toUpperCase()).join(' ') : words[0][0].toUpperCase()
+        return words.length > 1 ? words.map(word => word[0].toUpperCase()).join('') : words[0][0].toUpperCase()
       }
       return null
     }
@@ -192,7 +192,8 @@ export default {
     align-items: center;
     width: 30px;
     height: 30px;
-    color: rgb(83, 188, 248);;
+    color: rgb(83, 188, 248);
+    overflow: hidden;
   }
 
   .email,
