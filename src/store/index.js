@@ -70,7 +70,7 @@ export default createStore({
         users: [
             {
                 id: 1,
-                name: 'Test',
+                name: 'Test User',
                 phone: '+38000000000',
                 email: 'test@test'
             }
@@ -89,7 +89,8 @@ export default createStore({
                 title: 'other'
             }
         ],
-        categoriesFilter: []
+        categoriesFilter: [],
+        authUser: {}
     },
     getters: {
         getProducts: (state) => {
@@ -99,12 +100,13 @@ export default createStore({
             return state.products.filter(item => item.category_id === category_id)
         },
         getProductById: (state) => (id) => {
-            const result = state.products.find(item => item.id === id)
-            console.log('getProductById', state.products, id, result)
-            return result
+            return state.products.find(item => item.id === id)
         },
         getUserById: (state) => (user_id) => {
             return state.users.find(item => item.id === user_id)
+        },
+        getAuthUser: (state) => {
+            return state.authUser
         },
         getCategories: (state) => {
             return state.categories
@@ -115,7 +117,6 @@ export default createStore({
     },
     mutations: {
         setProducts: (state, payload) => {
-            console.log('setProducts', payload)
             state.products = payload
         },
         setCategoriesFilter: (state, payload) => {
@@ -124,7 +125,13 @@ export default createStore({
         setCategoriesFilterStatusById: (state, id) => {
             const filter = state.categoriesFilter.find(item => item.id === id)
             filter.select = !filter.select
-            console.log('categoriesFilter', state.categoriesFilter)
+        },
+        auth: (state, payload) => {
+            const user = state.users.find(user => user.email)
+            if (user && payload.password === '111111') state.authUser = user
+        },
+        logout: (state) => {
+            state.authUser = {}
         }
     },
     actions: {
@@ -136,8 +143,14 @@ export default createStore({
             }
         },
         setCategoriesFilterStatusById({commit}, id) {
-            console.log('setCategoriesFilterStatusById', id)
             commit('setCategoriesFilterStatusById', id)
+        },
+        signIn({commit}, payload) {
+            commit('auth', payload)
+
+        },
+        logout({commit}) {
+            commit('logout')
         }
     }
 })
