@@ -17,6 +17,9 @@ export default {
   name: "App",
   components: {
     VHeader
+  },
+  mounted() {
+    document.title = 'Genshin Bulletin Board'
   }
 }
 </script>
