@@ -13,16 +13,18 @@
           background="rgb(46, 78, 105, 0.8)"
           @onClick="toggleImage"
       />
-      <div
-          v-if="isOpen"
-          class="opened-image"
-          @click.stop="toggleImage"
-      >
-        <img
-            :alt="product.title"
-            :src="product.image"
-        />
-      </div>
+      <transition name="fade" appear>
+        <div
+            v-if="isOpen"
+            class="opened-image"
+            @click.stop="toggleImage"
+        >
+          <img
+              :alt="product.title"
+              :src="product.image"
+          />
+        </div>
+      </transition>
     </div>
     <div class="product-page-info">
       <div
@@ -95,7 +97,7 @@ export default {
     shortName() {
       const words = this.name.split(' ')
       if (this.name) {
-        return words.length > 1 ? words.map(word => word[0].toUpperCase()).join(' ') : words[0][0].toUpperCase()
+        return words.length > 1 ? words.map(word => word[0].toUpperCase()).join('') : words[0][0].toUpperCase()
       }
       return null
     }
@@ -110,6 +112,9 @@ export default {
 
 <style scoped lang="scss">
 .v-product-page {
+  height: 100%;
+  width: 100%;
+  margin: auto;
   background: rgb(216, 239, 252);
   border-radius: 5px;
   overflow: hidden;
@@ -192,7 +197,8 @@ export default {
     align-items: center;
     width: 30px;
     height: 30px;
-    color: rgb(83, 188, 248);;
+    color: rgb(83, 188, 248);
+    overflow: hidden;
   }
 
   .email,

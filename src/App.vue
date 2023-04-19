@@ -5,7 +5,15 @@
     </div>
     <div class="content-wrapper">
       <div class="container">
-        <router-view></router-view>
+        <router-view v-slot="{ Component, route }">
+          <transition
+              :name="route.meta.transition || 'fade'"
+              appear
+              mode="out-in"
+          >
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </div>
     </div>
   </div>
@@ -17,6 +25,9 @@ export default {
   name: "App",
   components: {
     VHeader
+  },
+  mounted() {
+    document.title = 'Genshin Bulletin Board'
   }
 }
 </script>
@@ -29,7 +40,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background: rgba(148, 184, 215, 0.81);
 }
 
 .main-wrapper {
@@ -38,14 +48,20 @@ export default {
   height: 100vh;
 }
 
-.header-wrapper {
-
-}
-
 .content-wrapper {
-  overflow-y: auto;
+  max-width: 100vw;
   flex: auto;
+  display: flex;
+  height: 100%;
+  overflow-y: overlay;
   padding-top: 15px;
   padding-bottom: 30px;
+  background: rgba(148, 184, 215, 0.81);
+  overflow-x: hidden;
+  .container {
+    min-height: 100%;
+    display: flex;
+  }
 }
+
 </style>

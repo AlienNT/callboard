@@ -7,27 +7,48 @@
           'background': background
         }"
   >
-    <img
-        v-show="isLoad"
-        :src="src"
-        :alt="alt"
-        :style="{
+    <transition
+        name="fade"
+        appear
+    >
+      <img
+          v-show="isLoad"
+          :src="src"
+          :alt="alt"
+          :style="{
           'object-fit': objectFit
         }"
-        @load="onLoad"
-        @error="onError"
-        @click="onClick"
+          @load="onLoad"
+          @error="onError"
+          @click="onClick"
+      >
+    </transition>
+    <transition
+        name="fade"
+        appear
     >
-    <div
-        v-if="!isLoad && isError"
-        class="error"
-    />
+      <div
+          v-if="!isLoad && !isError"
+          class="loader"
+      >
+        <VLoader/>
+      </div>
+      <div
+         v-else-if="!isLoad && isError"
+          class="error"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
+import VLoader from "@/components/VLoader.vue";
+
 export default {
   name: "VImage",
+  components: {
+    VLoader
+  },
   data() {
     return {
       isLoad: false,
@@ -97,5 +118,14 @@ export default {
     background: url("../assets/images/icons8-no-image-90.png") no-repeat center;
     background-size: 50px;
   }
+}
+
+.loader {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>

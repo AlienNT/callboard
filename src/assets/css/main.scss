@@ -1,24 +1,18 @@
+@import "normalize";
+@import "transition";
+@import "scrollbar";
+
 $firstColor: #ccc;
 $secondColor: #444;
 
-* {
-  margin: 0;
-  box-sizing: border-box;
-  text-decoration: none;
-
-}
-
-img {
-  display: block;
-}
-
-ul, ol {
-  padding: 0;
-  list-style: none;
+html, body {
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .container {
   max-width: 1200px;
+  width: 100%;
   margin: auto;
   padding-left: 15px;
   padding-right: 15px;
@@ -37,106 +31,19 @@ ul, ol {
   padding-right: 15px;
 }
 
-.main-wrapper {
-  display: flex;
-  height: 100%;
-  min-height: 100vh;
-  max-height: 100vh;
-  width: 100%;
-  flex-direction: column;
-}
-
-.logo {
-  img {
-    width: 30px;
-    height: 30px;
-    object-fit: contain;
-  }
-}
-
-.navigation {
-  display: flex;
-}
-
-.navigation__list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.navigation__item {
-  padding-top: 5px;
-  padding-bottom: 5px;
-
-  a {
-    padding: 10px;
-    text-transform: uppercase;
-    display: block;
-    color: $firstColor;
-  }
-}
-
-.main {
-  height: 100%;
-}
-
-.product-list {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.product-card {
-  flex: 1 1 25%;
-  margin-bottom: 10px;
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
-}
-
-.product {
-  display: flex;
-  flex-wrap: wrap;
-  border: 2px solid gray;
+.submit {
+  display: block;
+  border: none;
+  background: #3f6fa2;
   border-radius: 5px;
+  color: #cfecfc;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.product__image {
-  width: 100%;
-  max-width: 400px;
-  .img-wrapper {
-    position: relative;
-    width: 0;
-    height: 0;
-    padding-top: 70%;
-    padding-left: 100%;
-  }
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    background: $secondColor;
-    border-radius: 5px;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
+[disabled] {
+  opacity: 0.5;
+  cursor: default;
 }
 
-.product__info {
-  padding: 5px;
-  flex: auto;
-  min-width: 160px;
-
-  .title {
-    font-family: Arial, sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-  }
-
-  .price {
-    font-weight: 900;
-    font-family: monospace;
-    font-size: 24px;
-  }
-}

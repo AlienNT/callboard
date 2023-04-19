@@ -5,10 +5,16 @@ const routes = [
     path: '/',
     name: 'products',
     component: () => import('../components/pages/VCategoryPage')
-  },  {
+  },
+  {
     path: '/:id',
     name: 'product',
     component: () => import('../components/pages/VProductPage.vue')
+  },
+  {
+    path: '/auth',
+    name: 'auth',
+    component: () => import('../components/pages/VAuthPage.vue')
   },
 ]
 

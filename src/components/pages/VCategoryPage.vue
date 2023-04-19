@@ -41,6 +41,9 @@ export default {
     categories() {
       return this.$store.getters['getCategories']
     },
+    categoriesString () {
+      return JSON.stringify(this.categories)
+    },
     selectedCategories() {
       return this.categoriesFilter.filter(item => item.select).map(item => item.id)
     },
@@ -49,9 +52,9 @@ export default {
     }
   },
   watch: {
-    categories: {
+    categoriesFilter: {
       handler(e) {
-        if (e) {
+        if (!e?.length && this.categories.length) {
           this.setFilterItems(e)
         }
       },
@@ -73,6 +76,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.v-category-page {
+  width: 100%;
+  overflow: hidden;
+}
 .categories-filter {
   display: flex;
   flex-wrap: wrap;

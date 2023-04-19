@@ -5,6 +5,9 @@
         <div class="col logo">
           <VLogo/>
         </div>
+        <div class="col user">
+          <VAuth/>
+        </div>
       </div>
     </div>
   </header>
@@ -12,18 +15,26 @@
 
 <script>
 import VLogo from "@/components/VLogo.vue";
+import VAuth from "@/components/auth/VAuth.vue";
 
 export default {
   name: "VHeader",
   components: {
-    VLogo
+    VLogo,
+    VAuth
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .v-header {
+  * {
+    overflow-x: unset;
+  }
   background: rgb(46, 78, 105);
+  .row {
+    justify-content: space-between;
+  }
 }
 
 </style>

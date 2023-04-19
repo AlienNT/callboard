@@ -48,18 +48,21 @@ export default {
 
 <style scoped lang="scss">
 .v-product-card {
+  transition: .5s ease;
   border-radius: 5px;
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
   background: rgb(216, 239, 252);
 }
+
 .image {
   min-width: 240px;
-  flex: 1 1 25%;
+  flex: 1 1 auto;
 }
+
 .product-card__info {
-  flex: 1 1 75%;
+  flex: 1 1 auto;
   text-align: left;
   padding: 15px;
 
