@@ -4,12 +4,10 @@ import jwt from "jsonwebtoken"
 import {secretKey} from "../config/secretKey.js";
 
 const generateAccessToken = (id) => {
-    const payload = {
-        id
-    }
-
+    const payload = {id}
     return jwt.sign(payload, secretKey, {expiresIn: "24h"})
 }
+
 class authController {
     async registration(req, res) {
         try {
@@ -35,7 +33,7 @@ class authController {
             const user = await User.findOne({email})
 
             if (!user) {
-             return res.status(400).json({message: 'user with this email not found'})
+                return res.status(400).json({message: 'user with this email not found'})
             }
 
             const isValid = bcrypt.compareSync(password, user.password)
@@ -45,7 +43,15 @@ class authController {
             }
             const token = generateAccessToken(user._id)
 
-            return res.status(400).json({token})
+            return res.status(200).json({
+                token,
+                user: {
+                    id: user._id,
+                    name: user?.name,
+                    email: user?.email,
+                    phone: user?.phone
+                }
+            })
 
         } catch (e) {
             res.status(400).json({message: 'login error'})
