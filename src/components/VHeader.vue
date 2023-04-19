@@ -26,8 +26,11 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .v-header {
+  * {
+    overflow-x: unset;
+  }
   background: rgb(46, 78, 105);
   .row {
     justify-content: space-between;

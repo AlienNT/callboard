@@ -17,7 +17,7 @@ export default {
 
 <style scoped>
 .v-auth-page {
-  display: flex;
-  height: 100%;
+  margin: auto;
+  width: 100%;
 }
 </style>

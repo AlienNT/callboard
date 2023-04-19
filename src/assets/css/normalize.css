@@ -1,0 +1,26 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+}
+
+ul, ol {
+  padding: 0;
+  list-style: none;
+}
+
+label, input {
+  width: 100%;
+  display: block;
+  border: none;
+}
+label:focus, input:focus {
+  outline: none;
+  border: none;
+}
+
+/*# sourceMappingURL=normalize.css.map */

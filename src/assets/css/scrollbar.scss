@@ -1,0 +1,21 @@
+$trackColor: rgba(44, 62, 80, 0.5);
+$thumbColor: #2c3e50;
+$size: 6px;
+
+* {
+  ::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $trackColor;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $thumbColor;
+    &:hover {
+      background: lighten($thumbColor, 10%);
+    }
+  }
+}

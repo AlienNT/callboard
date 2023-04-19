@@ -104,7 +104,7 @@ export default {
 .sign-in-form {
   max-width: 360px;
   border-radius: 5px;
-  background: rgb(180, 220, 250);
+  background: rgb(180, 220, 250, 0.95);
   padding: 15px;
   display: flex;
   flex-wrap: wrap;

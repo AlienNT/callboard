@@ -10,18 +10,24 @@
           @click.stop.prevent="logout"
       />
       <div class="user__name">
-        <span
-            v-if="user.name"
+        <transition
+            name="fade"
+            appear
+            mode="out-in"
         >
+          <span
+              v-if="user.name"
+          >
           {{ user.name }}
         </span>
-        <div
-            v-else
-            class="sign-in"
-            @click="toggleSignIn"
-        >
-          Sign in
-        </div>
+          <div
+              v-else
+              class="sign-in"
+              @click="toggleSignIn"
+          >
+            Sign in
+          </div>
+        </transition>
       </div>
       <div
           class="user__avatar"
@@ -45,10 +51,15 @@
         </div>
       </div>
     </div>
-    <VAuthPopup
-        v-if="isShow && !user.name"
-        @onClick="toggleSignIn"
-    />
+    <transition
+        name="fade"
+        appear
+    >
+      <VAuthPopup
+          v-if="isShow && !user.name"
+          @onClick="toggleSignIn"
+      />
+    </transition>
   </div>
 </template>
 

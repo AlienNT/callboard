@@ -76,6 +76,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.v-category-page {
+  width: 100%;
+  overflow: hidden;
+}
 .categories-filter {
   display: flex;
   flex-wrap: wrap;
