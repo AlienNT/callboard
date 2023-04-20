@@ -1,19 +1,7 @@
 import {User} from "../models/index.js";
+import {publicUserData} from "./_authController.js";
 
 class userController {
-    async getUsers(req, res) {
-        try {
-            const users = await User.find({})
-
-            if (!users.length) {
-                return res.status(404).json({message: 'users not found'})
-            }
-            return res.status(200).json({data: users})
-
-        } catch (e) {
-            console.log(e)
-        }
-    }
 
     async getUserById(req, res) {
         try {
@@ -27,7 +15,7 @@ class userController {
             if (!user) {
                 return res.status(404).json({message: 'user not found'})
             }
-            return res.status(200).json({data: user})
+            return res.status(200).json({data: publicUserData(user)})
 
         } catch (e) {
             console.log(e)

@@ -9,6 +9,7 @@
       <VImage
           :alt="product?.title"
           :src="product?.image"
+          height="70%"
           object-fit="cover"
           background="rgb(46, 78, 105, 0.8)"
           @onClick="toggleImage"
@@ -48,13 +49,14 @@
         >
           {{ product?.price }}$
         </div>
-        <span
+        <router-link
+            :to="`/user-announcements/${author?._id}`"
             v-if="shortName"
             class="name"
         >
           {{name}}
           <span class="logo">{{ shortName }}</span>
-        </span>
+        </router-link>
         <a
             v-if="phone"
             class="phone"

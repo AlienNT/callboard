@@ -84,7 +84,8 @@ export function publicUserData(user) {
         id: user._id,
         name: user?.name,
         email: user?.email,
-        phone: user?.phone
+        phone: user?.phone,
+        created_at: user?.created_at
     }
 }
 

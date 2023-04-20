@@ -120,10 +120,9 @@ export default createStore({
             return localStorage.getItem('token')
         },
         getAnnouncements: (state) => {
-            return state.announcements
+            return state.announcements.sort(item => item.updated_at).reverse()
         },
         getAnnouncement: (state) => (id) => {
-            console.log('getAnnouncement', id)
             return state.announcements.find(item => item._id === id)
         },
     },
@@ -139,7 +138,6 @@ export default createStore({
             filter.select = !filter.select
         },
         login: (state, payload) => {
-            console.log('login', payload)
             setToken(payload.token)
             state.authUser = payload.user
         },
@@ -148,7 +146,6 @@ export default createStore({
             state.authUser = {}
         },
         setAnnouncements: (state, payload) => {
-            console.log('setAnnouncements', payload)
             state.announcements = payload
         },
         setAnnouncement: (state, payload) => {
@@ -208,12 +205,12 @@ export default createStore({
                 commit('setAnnouncement', data)
             }
         },
-        async createAnnouncement({commit}, payload) {
+        async createAnnouncement(context, payload) {
             const response = await httpRequest('post', `/announcements`, payload)
             const {data} = response?.data
-            console.log('createAnnouncement', payload, data)
             if (data) {
-              commit('setAnnouncement', data)
+                await context.dispatch('fetchAnnouncementById', data._id)
+
             }
             return data
         }

@@ -14,12 +14,13 @@ const router = Router()
     /**
      * users
      */
-    .get('/users', authMiddleware, userController.getUsers)
-    .get('/user/:id', authMiddleware, userController.getUserById)
+    // .get('/users', authMiddleware, userController.getUsers)
+    .get('/user/:id', userController.getUserById)
 /**
  *
  */
     .get('/announcements', announcementController.getAnnouncements)
     .get('/announcements/:id', announcementController.getAnnouncementById)
     .post('/announcements', authMiddleware, announcementController.createAnnouncement)
+    // .patch('/announcements', authMiddleware, announcementController.update)
 export default router

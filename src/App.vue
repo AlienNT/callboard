@@ -28,7 +28,13 @@ export default {
   components: {
     VHeader
   },
+  methods: {
+    async fetchAnnouncements() {
+      this.$store.dispatch('fetchAnnouncements')
+    }
+  },
   mounted() {
+    this.fetchAnnouncements()
     document.title = 'Genshin Bulletin Board'
   }
 }

@@ -6,10 +6,16 @@
           <VLogo/>
         </div>
         <div v-if="isAuth" class="col add-new">
-          <div class="add-new-wrapper">
+          <div
+              class="add-new-wrapper"
+              :class="{
+                  'active': isEdit
+                }"
+          >
             <router-link
-                to="/new-announcement"
+                :to="isEdit ? '/':'/new-announcement'"
                 class="add-new-btn"
+
             />
           </div>
         </div>
@@ -32,8 +38,11 @@ export default {
     VAuth
   },
   computed: {
-    isAuth () {
+    isAuth() {
       return !!this.$store.getters['getAuthUser']?.email
+    },
+    isEdit() {
+      return this.$route?.path === '/new-announcement'
     }
   }
 }
@@ -49,6 +58,7 @@ export default {
 
   .row {
     justify-content: space-between;
+    flex-wrap: nowrap;
 
     .logo,
     .add-new,
@@ -77,12 +87,34 @@ export default {
   }
 
   .add-new-wrapper {
-    //padding: 5px;
     border-radius: 50%;
+    transition: .2s ease;
     border: 2px double #6a93bd;
+
+    &:hover {
+      border-color: lighten(#6a93bd, 10%);
+
+      .add-new-btn {
+        background: lighten(#6a93bd, 10%);
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  .active {
+    .add-new-btn {
+      transform: rotate(45deg);
+    }
+    &:hover {
+      .add-new-btn {
+        transform: scale(0.95) rotate(45deg);
+      }
+    }
   }
 
   .add-new-btn {
+    transition: .2s ease;
+    cursor: pointer;
     background: #6a93bd;
     display: block;
     width: 30px;
@@ -91,6 +123,7 @@ export default {
     mask-repeat: no-repeat;
     mask-size: contain;
     mask-position: center;
+
   }
 }
 

@@ -4,7 +4,7 @@
         class="user"
     >
       <button
-          v-if="user.name"
+          v-if="user.id"
           type="button"
           class="logout"
           @click.stop.prevent="logout"
@@ -99,6 +99,7 @@ export default {
     },
     logout() {
       this.$store.dispatch('logout')
+      this.$router.push('/')
     },
     getAuthUser(token) {
       this.$store.dispatch('fetchAuthUser', token)
@@ -107,7 +108,6 @@ export default {
   watch: {
     user: {
       handler(e) {
-        console.log(e)
         if (e?.name && this.$route.fullPath === '/auth') {
           this.$router.push('/')
         }
@@ -173,8 +173,14 @@ export default {
   img {
     width: 100%;
     height: 100%;
-
     background: #000;
+  }
+}
+
+.user__name {
+  @media all and (max-width: 500px) {
+    display: none;
+
   }
 }
 

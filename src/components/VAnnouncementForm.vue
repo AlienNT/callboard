@@ -41,6 +41,7 @@
           <input
               placeholder="image"
               type="file"
+              accept="image/png, image/jpeg"
               class="announcement-form__input"
               :disabled="isLink"
               @change="uploadFile"
@@ -113,7 +114,6 @@ export default {
     async onSubmit(e) {
       if (this.isValid) {
         const result = await this.createAnnouncement();
-        console.log('onSubmit', result)
         if (result._id) {
           alert('create success')
           this.clearFormData(e)
@@ -177,6 +177,7 @@ export default {
   flex: 1 1 50%;
 }
 .announcement-form__fields {
+  min-width: 240px;
   > * {
     margin-bottom: 10px;
 

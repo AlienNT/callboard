@@ -28,13 +28,20 @@ class announcementController {
         return res.json({...req.body})
     }
 
-    /* async update(res, req) {
+     async update(res, req) {
          try {
+             const data = announcementData(req.body)
+             const decryptToken = await decryptAccessToken(req.headers.authorization.split(' ')[1])
+             const user_id = decryptToken.id
+             const announce = await Announcement.findOneAndUpdate({_id:data?._id, author: user_id}, data)
+             if (announce) {
 
+                 return res.status(200).json({data: announce})
+             }
          } catch (e) {
-
+             res.status(400).json({message: 'update error', ...e})
          }
-     }*/
+     }
 
     async getAnnouncementById(req, res) {
         try {
@@ -61,13 +68,13 @@ class announcementController {
         }
     }
 
-    // async delete(req, res) {
-    //     try {
-    //
-    //     } catch (e) {
-    //
-    //     }
-    // }
+    async delete(req, res) {
+        try {
+            const decryptToken = await decryptAccessToken(req.headers.authorization.split(' ')[1])
+        } catch (e) {
+
+        }
+    }
 }
 
 export default new announcementController()
