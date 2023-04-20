@@ -58,7 +58,7 @@ export default {
   props: {
     src: {
       type: String,
-      default:""
+      default: null
     },
     alt: {
       type: String
@@ -83,9 +83,11 @@ export default {
   methods: {
     onLoad(e) {
       this.isLoad = e
+      console.log('onLoad')
     },
     onError(e) {
       this.isError = e
+      console.log('onError')
     },
     onClick() {
       if (this.isLoad && !this.isError) {

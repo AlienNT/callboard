@@ -5,7 +5,7 @@
   >
     <div class="image">
       <VImage
-          :src="data?.image"
+          :src="data?.image || ''"
           :alt="data?.title"
           background="rgb(46, 78, 105, 0.8)"
       />
