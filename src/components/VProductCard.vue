@@ -24,7 +24,7 @@
       <div
           class="price"
       >
-        {{ data?.price }}
+        {{ data?.price }}$
       </div>
     </div>
   </router-link>
@@ -48,6 +48,7 @@ export default {
 
 <style scoped lang="scss">
 .v-product-card {
+  height: 100%;
   transition: .5s ease;
   border-radius: 5px;
   overflow: hidden;

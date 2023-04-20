@@ -48,9 +48,5 @@ export default {
   margin-bottom: 15px;
   flex: 1 1 25%;
   min-width: 240px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 </style>

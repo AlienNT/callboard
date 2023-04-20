@@ -30,7 +30,12 @@ html, body {
   padding-left: 15px;
   padding-right: 15px;
 }
-
+input, textarea {
+  transition: .2s ease;
+  &:hover {
+    box-shadow: 0 0 6px 1px rgba(49, 85, 124, 0.66);
+  }
+}
 .submit {
   display: block;
   border: none;
@@ -40,6 +45,13 @@ html, body {
   padding: 5px 10px;
   font-size: 14px;
   cursor: pointer;
+  transition: .2s ease;
+  &:first-letter {
+    text-transform: uppercase;
+  }
+  &:hover {
+    box-shadow: 0 0 6px 1px #58a6f8;
+  }
 }
 
 [disabled] {

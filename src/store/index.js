@@ -207,6 +207,15 @@ export default createStore({
             if (data) {
                 commit('setAnnouncement', data)
             }
+        },
+        async createAnnouncement({commit}, payload) {
+            const response = await httpRequest('post', `/announcements`, payload)
+            const {data} = response?.data
+            console.log('createAnnouncement', payload, data)
+            if (data) {
+              commit('setAnnouncement', data)
+            }
+            return data
         }
     }
 })

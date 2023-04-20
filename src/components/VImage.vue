@@ -12,8 +12,8 @@
         appear
     >
       <img
-          v-show="isLoad"
-          :src="src"
+          v-show="isLoad && !isError"
+          :src="src || ''"
           :alt="alt"
           :style="{
           'object-fit': objectFit
@@ -34,7 +34,7 @@
         <VLoader/>
       </div>
       <div
-         v-else-if="!isLoad && isError"
+         v-else-if="isError && !isLoad"
           class="error"
       />
     </transition>
@@ -81,18 +81,25 @@ export default {
     }
   },
   methods: {
-    onLoad(e) {
-      this.isLoad = e
-      console.log('onLoad')
+    onLoad() {
+      this.isLoad = true
     },
-    onError(e) {
-      this.isError = e
-      console.log('onError')
+    onError() {
+      this.isError = true
     },
     onClick() {
       if (this.isLoad && !this.isError) {
         this.$emit('onClick')
       }
+    }
+  },
+  watch: {
+    src: {
+      handler() {
+        this.isLoad = false
+        this.isError = false
+      },
+      immediate: true
     }
   }
 }

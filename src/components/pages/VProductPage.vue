@@ -46,12 +46,13 @@
         <div
             class="product-page__item product-page__price"
         >
-          {{ product?.price }}
+          {{ product?.price }}$
         </div>
         <span
             v-if="shortName"
             class="name"
         >
+          {{name}}
           <span class="logo">{{ shortName }}</span>
         </span>
         <a

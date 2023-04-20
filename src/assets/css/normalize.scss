@@ -2,6 +2,7 @@
   margin: 0;
   box-sizing: border-box;
   text-decoration: none;
+  font-family: monospace, sans-serif;
 }
 
 img {
@@ -12,13 +13,30 @@ ul, ol {
   padding: 0;
   list-style: none;
 }
-label, input {
+textarea {
+  resize: none;
+}
+
+label, input, textarea {
   width: 100%;
   display: block;
   border: none;
+  &::placeholder {
+    font-size: 14px;
+  }
 
   &:focus {
     outline: none;
     border: none;
   }
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }
