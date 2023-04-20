@@ -19,7 +19,7 @@ const router = Router()
 /**
  *
  */
-    .get('/announcements', authMiddleware, announcementController.getAnnouncements)
-    .get('/announcements/:id', authMiddleware, announcementController.getAnnouncementById)
+    .get('/announcements', announcementController.getAnnouncements)
+    .get('/announcements/:id', announcementController.getAnnouncementById)
     .post('/announcements', authMiddleware, announcementController.createAnnouncement)
 export default router

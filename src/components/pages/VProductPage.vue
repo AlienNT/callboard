@@ -7,21 +7,24 @@
 
     >
       <VImage
-          :alt="product.title"
-          :src="product.image"
+          :alt="product?.title"
+          :src="product?.image"
           object-fit="cover"
           background="rgb(46, 78, 105, 0.8)"
           @onClick="toggleImage"
       />
-      <transition name="fade" appear>
+      <transition
+          name="fade"
+          appear
+      >
         <div
             v-if="isOpen"
             class="opened-image"
             @click.stop="toggleImage"
         >
           <img
-              :alt="product.title"
-              :src="product.image"
+              :alt="product?.title"
+              :src="product?.image"
           />
         </div>
       </transition>
@@ -30,12 +33,12 @@
       <div
           class="product-page__item product-page__title"
       >
-        {{ product.title }}
+        {{ product?.title }}
       </div>
       <div
           class="product-page__item product-page__description"
       >
-        {{ product.description }}
+        {{ product?.description }}
       </div>
       <div
           class="product-page__item product-page__contacts"
@@ -43,25 +46,27 @@
         <div
             class="product-page__item product-page__price"
         >
-          {{ product.price }}
+          {{ product?.price }}
         </div>
         <span
+            v-if="shortName"
             class="name"
         >
-          {{ contacts.name }}
           <span class="logo">{{ shortName }}</span>
         </span>
         <a
+            v-if="phone"
             class="phone"
-            :href="'tel:' + contacts.phone"
+            :href="'tel:' + phone"
         >
-          {{ contacts.phone }}
+          {{ phone }}
         </a>
         <a
+            v-if="email"
             class="email"
-            :href="'mailto:' + contacts.email"
+            :href="'mailto:' + email"
         >
-          {{ contacts.email }}
+          {{ email }}
         </a>
       </div>
     </div>
@@ -83,20 +88,26 @@ export default {
   },
   computed: {
     id() {
-      return Number(this.$route.params.id)
+      return this.$route.params.id
     },
     product() {
-      return this.$store.getters['getProductById'](this.id)
+      return this.$store.getters['getAnnouncement'](this.id)
     },
-    contacts() {
-      return this.$store.getters['getUserById'](this.product.user_id)
+    author() {
+      return this.product?.author
     },
     name() {
-      return this.contacts.name
+      return this.author?.name
+    },
+    email() {
+      return this.author?.email
+    },
+    phone() {
+      return this.author?.phone
     },
     shortName() {
-      const words = this.name.split(' ')
       if (this.name) {
+        const words = this.name.split(' ')
         return words.length > 1 ? words.map(word => word[0].toUpperCase()).join('') : words[0][0].toUpperCase()
       }
       return null
@@ -105,6 +116,14 @@ export default {
   methods: {
     toggleImage() {
       this.isOpen = !this.isOpen
+    },
+    fetchAnnouncement() {
+      this.$store.dispatch('fetchAnnouncementById', this.id)
+    }
+  },
+  created() {
+    if (!this.product) {
+      this.fetchAnnouncement()
     }
   }
 }

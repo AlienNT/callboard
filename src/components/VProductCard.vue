@@ -1,7 +1,7 @@
 <template>
   <router-link
       class="v-product-card"
-      :to="'/' + data?.id"
+      :to="'/' + data?._id"
   >
     <div class="image">
       <VImage

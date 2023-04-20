@@ -1,5 +1,5 @@
-import {Announcement, User} from "../models/index.js";
-import {decryptAccessToken, publicUserData} from "./_authController.js";
+import {Announcement} from "../models/index.js";
+import {decryptAccessToken} from "./_authController.js";
 
 const announcementData = (payload) => {
     return {
@@ -38,12 +38,12 @@ class announcementController {
 
     async getAnnouncementById(req, res) {
         try {
-            const {_id} = req.body
-            const user_id = decryptAccessToken(req.headers.authorization)
-            const user = User.findById(user_id)
-            const data = Announcement.findById(_id)
+            const {id} = req.params
+            console.log(req.params)
+            const data = await Announcement.findById(id).populate('author', ['name', 'email', 'phone'])
+            console.log('data', data)
 
-            res.status(200).json({data: {...data, user: publicUserData(user)}})
+            res.status(200).json({data})
         } catch (e) {
             res.status(400).json({message: 'get error', ...e})
         }

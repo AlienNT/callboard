@@ -57,7 +57,8 @@ export default {
   },
   props: {
     src: {
-      type: String
+      type: String,
+      default:""
     },
     alt: {
       type: String
@@ -115,8 +116,11 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    background: url("../assets/images/icons8-no-image-90.png") no-repeat center;
-    background-size: 50px;
+    mask-image: url("../assets/images/icons8-no-image-90.png");
+    background: rgba(109, 137, 164, 0.63);
+    mask-position: center;
+    mask-size: 50px;
+    mask-repeat: no-repeat;
   }
 }
 

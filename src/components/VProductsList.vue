@@ -1,12 +1,14 @@
 <template>
-  <ul class="row v-product-list">
+  <ul
+      class="row v-product-list"
+  >
     <transition-group
         name="list"
     >
       <li
           class="col v-product-item"
           v-for="product in data"
-          :key="product.id"
+          :key="product._id"
       >
         <VProductCard
             :data="product"

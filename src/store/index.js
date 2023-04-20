@@ -118,7 +118,14 @@ export default createStore({
         },
         getToken: () => {
             return localStorage.getItem('token')
-        }
+        },
+        getAnnouncements: (state) => {
+            return state.announcements
+        },
+        getAnnouncement: (state) => (id) => {
+            console.log('getAnnouncement', id)
+            return state.announcements.find(item => item._id === id)
+        },
     },
     mutations: {
         setProducts: (state, payload) => {
@@ -141,6 +148,7 @@ export default createStore({
             state.authUser = {}
         },
         setAnnouncements: (state, payload) => {
+            console.log('setAnnouncements', payload)
             state.announcements = payload
         },
         setAnnouncement: (state, payload) => {
@@ -188,14 +196,16 @@ export default createStore({
         },
         async fetchAnnouncements({commit}) {
             const response = await httpRequest('get', '/announcements')
-            if (response?.data) {
-                commit('setAnnouncements', response.data)
+            const {data} = response?.data
+            if (data) {
+                commit('setAnnouncements', data)
             }
         },
         async fetchAnnouncementById({commit}, id) {
             const response = await httpRequest('get', `/announcements/${id}`)
-            if (response?.data) {
-                commit('setAnnouncement', response.data)
+            const {data} = response?.data
+            if (data) {
+                commit('setAnnouncement', data)
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
   <div class="v-category-page">
-    <div class="categories-filter">
+    <div class="categories-filter" v-if="false">
       <div
           v-for="item in categoriesFilter"
           :key="item?.id"
@@ -14,7 +14,7 @@
       </div>
     </div>
     <VProductsList
-        :data="products"
+        :data="announcements"
     />
   </div>
 </template>
@@ -33,10 +33,13 @@ export default {
     }
   },
   computed: {
-    products() {
-      return this.selectedCategories.length ?
-          this.selectedCategories.map(id => this.$store.getters['getProductsByCategory'](id)).flat(1) :
-          this.$store.getters['getProducts']
+    // products() {
+    //   return this.selectedCategories.length ?
+    //       this.selectedCategories.map(id => this.$store.getters['getProductsByCategory'](id)).flat(1) :
+    //       this.$store.getters['getProducts']
+    // },
+    announcements() {
+      return this.$store.getters['getAnnouncements']
     },
     categories() {
       return this.$store.getters['getCategories']
@@ -71,6 +74,16 @@ export default {
     setFilterItems() {
       this.$store.dispatch('setCategoriesFilter', this.categories)
     },
+    fetchAnnouncements() {
+      this.$store.dispatch('fetchAnnouncements')
+    }
+  },
+  created() {
+    console.log('created')
+    this.fetchAnnouncements()
+  },
+  mounted() {
+    console.log('mounted')
   }
 }
 </script>

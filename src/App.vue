@@ -5,20 +5,22 @@
     </div>
     <div class="content-wrapper">
       <div class="container">
-        <router-view v-slot="{ Component, route }">
+<!--        <router-view v-slot="{ Component, route }">
           <transition
-              :name="route.meta.transition || 'fade'"
+              :name="route.meta.transition || 'list'"
               appear
-              mode="out-in"
           >
             <component :is="Component" />
           </transition>
-        </router-view>
+        </router-view>-->
+
+        <router-view/>
       </div>
     </div>
   </div>
 </template>
 <script>
+//todo fix animation
 import VHeader from "@/components/VHeader.vue";
 
 export default {
