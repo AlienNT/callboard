@@ -221,7 +221,7 @@ export async function httpRequest(method, url, data) {
     return axios({
         method,
         url,
-        baseURL: 'http://localhost:4000/api',
+        baseURL: 'https://bulletin-board-api.onrender.com/api',
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}` || '',
         },
