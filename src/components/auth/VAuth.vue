@@ -88,6 +88,9 @@ export default {
         return words.length > 1 ? words.map(word => word[0].toUpperCase()).join('') : words[0][0].toUpperCase()
       }
       return null
+    },
+    token() {
+      return this.$store.getters['getToken']
     }
   },
   methods: {
@@ -96,14 +99,25 @@ export default {
     },
     logout() {
       this.$store.dispatch('logout')
-    }
+    },
+    getAuthUser(token) {
+      this.$store.dispatch('fetchAuthUser', token)
+    },
   },
   watch: {
     user: {
       handler(e) {
         console.log(e)
-        if (e.name && this.$route.fullPath === '/auth') {
+        if (e?.name && this.$route.fullPath === '/auth') {
           this.$router.push('/')
+        }
+      },
+      immediate: true
+    },
+    token: {
+      handler(e) {
+        if (e) {
+          this.getAuthUser(e)
         }
       },
       immediate: true

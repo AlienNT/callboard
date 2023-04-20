@@ -68,6 +68,7 @@
     <button
         class="submit"
         type="submit"
+        :disabled="isButtonDisabled"
     >
       submit
     </button>
@@ -88,9 +89,23 @@ export default {
       }
     }
   },
+  computed: {
+    isButtonDisabled() {
+      return this.formData.password !== this.formData.confirmPassword ||
+          !this.formData.email ||
+          !this.formData.name ||
+          this.formData.password.length < 8
+    }
+  },
   methods: {
     onSubmit() {
-      console.log('submit', this.formData)
+      this.registration()
+    },
+    async registration() {
+      this.$store.dispatch('registration', this.formData)
+    },
+    async fetchUsers() {
+      return await this.$store.dispatch('fetchUsers')
     }
   }
 }
@@ -113,14 +128,17 @@ export default {
     }
   }
 }
+
 .form-title {
   margin-bottom: 15px;
   font-size: 22px;
 }
+
 .registration-input {
   border-radius: 5px;
   padding: 5px 15px;
 }
+
 .submit {
   margin-left: auto;
 }

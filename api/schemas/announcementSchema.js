@@ -1,8 +1,8 @@
 import {Schema} from "mongoose";
 
 export const AnnouncementSchema = new Schema({
-    user_id: {
-        type: String,
+    author: {
+        type: Schema.Types.ObjectId,
         required: true,
         ref: 'User'
     },

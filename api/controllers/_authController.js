@@ -7,7 +7,9 @@ const generateAccessToken = (id) => {
     const payload = {id}
     return jwt.sign(payload, secretKey, {expiresIn: "24h"})
 }
-
+export const decryptAccessToken = (token) => {
+    return jwt.verify(token, secretKey)
+}
 class authController {
     async registration(req, res) {
         try {
@@ -19,8 +21,11 @@ class authController {
             }
             const hashPassword = bcrypt.hashSync(password, 7)
 
-            await User.create({name, email, password: hashPassword})
-            res.status(200).json({message: 'user create'})
+            const user = await User.create({name, email, password: hashPassword})
+            res.status(200).json({
+                user: publicUserData(user),
+                token: generateAccessToken(user._id)
+            })
 
         } catch (e) {
             res.status(400).json({message: 'registration error', ...e})
@@ -29,6 +34,7 @@ class authController {
 
     async login(req, res) {
         try {
+            console.log('req body', req.body)
             const {email, password} = req.body
             const user = await User.findOne({email})
 
@@ -41,16 +47,10 @@ class authController {
             if (!isValid) {
                 return res.status(400).json({message: 'incorrect password'})
             }
-            const token = generateAccessToken(user._id)
 
             return res.status(200).json({
-                token,
-                user: {
-                    id: user._id,
-                    name: user?.name,
-                    email: user?.email,
-                    phone: user?.phone
-                }
+                token: generateAccessToken(user._id),
+                user: publicUserData(user)
             })
 
         } catch (e) {
@@ -58,14 +58,33 @@ class authController {
         }
 
     }
-
-    async logout(req, res) {
+    async getAuthUser(req, res) {
         try {
-            res.json('logout')
+            const token = req.headers.authorization.split(' ')[1]
+            const {id} = decryptAccessToken(token)
+
+            if (token) {
+                const user = await User.findById(id)
+
+                return res.status(200).json({
+                    token: token,
+                    user: publicUserData(user)
+                })
+
+            }
         } catch (e) {
             console.log(e)
             res.status(400).json({message: 'logout error'})
         }
+    }
+}
+
+export function publicUserData(user) {
+    return {
+        id: user._id,
+        name: user?.name,
+        email: user?.email,
+        phone: user?.phone
     }
 }
 

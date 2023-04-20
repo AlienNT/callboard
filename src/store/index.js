@@ -1,4 +1,5 @@
 import {createStore} from 'vuex'
+import axios from "axios";
 
 export default createStore({
     state: {
@@ -67,6 +68,7 @@ export default createStore({
                 category_id: 3
             },
         ],
+        announcements:[],
         users: [
             {
                 id: 1,
@@ -113,6 +115,9 @@ export default createStore({
         },
         getCategoriesFilter: (state) => {
             return state.categoriesFilter
+        },
+        getToken: () => {
+            return localStorage.getItem('token')
         }
     },
     mutations: {
@@ -126,12 +131,22 @@ export default createStore({
             const filter = state.categoriesFilter.find(item => item.id === id)
             filter.select = !filter.select
         },
-        auth: (state, payload) => {
-            const user = state.users.find(user => user.email)
-            if (user && payload.password === '111111') state.authUser = user
+        login: (state, payload) => {
+            console.log('login', payload)
+            setToken(payload.token)
+            state.authUser = payload.user
         },
         logout: (state) => {
+            setToken('')
             state.authUser = {}
+        },
+        setAnnouncements: (state, payload) => {
+            state.announcements = payload
+        },
+        setAnnouncement: (state, payload) => {
+            if (!state.announcements.find(item => item._id === payload._id)) {
+                state.announcements.push(payload)
+            }
         }
     },
     actions: {
@@ -145,12 +160,59 @@ export default createStore({
         setCategoriesFilterStatusById({commit}, id) {
             commit('setCategoriesFilterStatusById', id)
         },
-        signIn({commit}, payload) {
-            commit('auth', payload)
+        async registration({commit}, payload) {
+            const response = await httpRequest('post', '/registration', payload)
+            const {token, user} = response?.data
 
+            if (user) {
+                commit('login', {token, user})
+            }
+
+        },
+        async signIn({commit}, payload) {
+            const response = await httpRequest('post', '/login', payload)
+            const {token, user} = response?.data
+            if (token) {
+                commit('login', {token, user})
+            }
         },
         logout({commit}) {
             commit('logout')
+        },
+        async fetchAuthUser({commit}, payload) {
+            const response = await httpRequest('get', '/auth-user', payload)
+            const {token, user} = response?.data
+            if (token) {
+                commit('login', {token, user})
+            }
+        },
+        async fetchAnnouncements({commit}) {
+            const response = await httpRequest('get', '/announcements')
+            if (response?.data) {
+                commit('setAnnouncements', response.data)
+            }
+        },
+        async fetchAnnouncementById({commit}, id) {
+            const response = await httpRequest('get', `/announcements/${id}`)
+            if (response?.data) {
+                commit('setAnnouncement', response.data)
+            }
         }
     }
 })
+
+export async function httpRequest(method, url, data) {
+    return axios({
+        method,
+        url,
+        baseURL: 'http://localhost:4000/api',
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+        },
+        data
+    });
+}
+
+export function setToken(token) {
+    localStorage.setItem('token', token)
+}

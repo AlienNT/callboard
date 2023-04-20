@@ -23,6 +23,9 @@ export const UserSchema = new Schema({
         minLength: 9,
         maxLength: 14
     },
+    announcements: [{
+        type: Schema.Types.ObjectId, ref: 'Announcement'
+    }],
     created_at: {
         type: Date,
         default: Date.now()
