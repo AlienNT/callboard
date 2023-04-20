@@ -56,7 +56,7 @@ class announcementController {
         }
     }
 
-    /*async getAnnouncements(req, res) {
+    async getAnnouncements(req, res) {
         console.log('res', res)
         try {
             const announcements = await Announcement.find().populate('author', ['name', 'email', 'phone'])
@@ -66,7 +66,7 @@ class announcementController {
         } catch (e) {
             res.status(400).json({message: 'get error', ...e})
         }
-    }*/
+    }
 
     /*async delete(req, res) {
         try {
