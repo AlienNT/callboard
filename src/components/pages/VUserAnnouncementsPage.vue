@@ -104,10 +104,6 @@ export default {
         }
       }, immediate: true
     }
-  },
-  mounted() {
-    console.log('authorId', this.authorId)
-
   }
 }
 </script>

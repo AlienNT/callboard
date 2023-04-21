@@ -32,7 +32,7 @@
     </div>
     <div class="product-page-info">
       <div
-          class="product-page__item product-page__title"
+          class="product-page__item product-page__title title"
       >
         {{ product?.title }}
       </div>
@@ -173,11 +173,14 @@ export default {
 
 .product-page__title {
   font-size: 18px;
+  color: #2c3e50;
+  font-weight: 600;
 
 }
 
 .product-page__description {
   font-size: 16px;
+  color: lighten(#2c3e50, 20%);
 }
 
 .product-page__price {
@@ -229,8 +232,9 @@ export default {
     font-weight: 600;
     border-radius: 5px;
     background-size: 20px;
-    padding: 5px 5px 5px 35px;
+    padding: 5px 5px 5px 40px;
     overflow-x: hidden;
+    text-overflow: ellipsis;
   }
 
   .email {

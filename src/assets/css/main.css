@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500;600&display=swap");
 * {
   margin: 0;
   box-sizing: border-box;
@@ -81,6 +82,14 @@ input[type=number] {
 }
 * ::-webkit-scrollbar-thumb:hover {
   background: #3e5871;
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+.title {
+  font-weight: 600;
 }
 
 html, body {

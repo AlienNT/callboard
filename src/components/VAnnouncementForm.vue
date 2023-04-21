@@ -3,6 +3,9 @@
       class="v-announcement-form"
       @submit.prevent.stop="onSubmit"
   >
+    <div class="title">
+      Add new post
+    </div>
     <div class="announcement-form__image-preview">
       <div class="image-wrapper">
         <VImage
@@ -155,6 +158,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.title {
+  font-size: 20px;
+  text-align: center;
+  color: #2c3e50;
+  width: 100%;
+  margin-bottom: 15px;
+
+}
 .v-announcement-form {
   margin: auto;
   width: 100%;
