@@ -55,6 +55,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   background: rgb(216, 239, 252);
+  align-content: flex-start;
 }
 
 .image {
@@ -66,6 +67,9 @@ export default {
   flex: 1 1 auto;
   text-align: left;
   padding: 15px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
 
   .title {
     font-weight: 600;

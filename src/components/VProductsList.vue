@@ -47,6 +47,6 @@ export default {
   transition: .5s ease;
   margin-bottom: 15px;
   flex: 1 1 25%;
-  min-width: 240px;
+  min-width: 280px;
 }
 </style>
