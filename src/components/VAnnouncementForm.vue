@@ -20,7 +20,7 @@
           class="announcement-form__label"
       >
         <input
-            placeholder="title"
+            placeholder="title *"
             type="text"
             class="announcement-form__input"
             v-model="formData.title"

@@ -13,7 +13,7 @@
           v-model="formData.name"
           type="text"
           name="name"
-          placeholder="name"
+          placeholder="name *"
           class="registration-input name"
           required
       >
@@ -25,7 +25,7 @@
           v-model="formData.email"
           type="email"
           name="email"
-          placeholder="email"
+          placeholder="email *"
           class="registration-input email"
           required
       >
@@ -48,7 +48,7 @@
           v-model="formData.password"
           type="password"
           name="password"
-          placeholder="password"
+          placeholder="password *"
           class="registration-input password"
           required
       >
@@ -60,7 +60,7 @@
           v-model="formData.confirmPassword"
           type="password"
           name="confirm-password"
-          placeholder="confirm password"
+          placeholder="confirm password *"
           class="registration-input password"
           required
       >
