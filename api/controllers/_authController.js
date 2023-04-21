@@ -13,7 +13,7 @@ export const decryptAccessToken = (token) => {
 class authController {
     async registration(req, res) {
         try {
-            const {name, email, password} = req.body
+            const {name, email, phone, password} = req.body
             const isUser = await User.findOne({email})
 
             if (isUser) {
@@ -21,7 +21,7 @@ class authController {
             }
             const hashPassword = bcrypt.hashSync(password, 7)
 
-            const user = await User.create({name, email, password: hashPassword})
+            const user = await User.create({name, email, phone, password: hashPassword})
             res.status(200).json({
                 user: publicUserData(user),
                 token: generateAccessToken(user._id)

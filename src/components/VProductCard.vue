@@ -14,12 +14,12 @@
       <div
           class="title"
       >
-        {{ data?.title }}
+        {{ title }}
       </div>
       <div
           class="description"
       >
-        {{ data?.description }}
+        {{ description }}
       </div>
       <div
           class="price"
@@ -42,6 +42,21 @@ export default {
   },
   components: {
     VImage
+  },
+  computed: {
+    title() {
+      return this.truncateStr(this.data?.title, 30)
+    },
+    description() {
+      return this.truncateStr(this.data?.description, 50)
+    },
+  },
+  methods: {
+    truncateStr(str, maxLength) {
+      if (!maxLength || !str) return str
+
+      return maxLength < str.length ? str.slice(0, maxLength + 3) + '...' : str
+    }
   }
 }
 </script>
@@ -60,11 +75,11 @@ export default {
 
 .image {
   min-width: 240px;
-  flex: 1 1 auto;
+  flex: 1 1 50%;
 }
 
 .product-card__info {
-  flex: 1 1 auto;
+  flex: 1 1 50%;
   text-align: left;
   padding: 15px;
   gap: 10px;
@@ -74,6 +89,7 @@ export default {
   .title {
     font-weight: 600;
     font-size: 18px;
+    color: #2c3e50;
 
     &:first-letter {
       text-transform: uppercase;
@@ -82,6 +98,7 @@ export default {
 
   .description {
     font-size: 16px;
+    color: lighten(#2c3e50, 10%);
 
     &:first-letter {
       text-transform: uppercase;
@@ -91,6 +108,7 @@ export default {
   .price {
     font-weight: 900;
     font-size: 24px;
+    color: lighten(#27527e, 10%);
   }
 }
 </style>
