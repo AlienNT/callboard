@@ -34,6 +34,7 @@
           :class="{
             'unauthorized': !user.name
           }"
+          @click="toggleSignIn"
       >
         <VImage
             v-if="user.image"
