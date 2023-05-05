@@ -10,6 +10,10 @@ const generateAccessToken = (id) => {
 export const decryptAccessToken = (token) => {
     return jwt.verify(token, secretKey)
 }
+export const decryptTokenData = (req) => {
+    return decryptAccessToken(req.headers.authorization.split(' ')[1]);
+}
+
 class authController {
     async registration(req, res) {
         try {
@@ -17,11 +21,18 @@ class authController {
             const isUser = await User.findOne({email})
 
             if (isUser) {
-                return res.status(400).json({message: 'user with this email address already exists'})
+                return res.status(400)
+                    .json({
+                        errors: {
+                            email: {
+                                message: 'user with this email address already exists'
+                            }
+                        }
+                    })
             }
             const hashPassword = bcrypt.hashSync(password, 7)
 
-            const user = await User.create({name, email, phone, password: hashPassword})
+            const user = await User.create({name, email, phone: phone || null, password: hashPassword})
             res.status(200).json({
                 user: publicUserData(user),
                 token: generateAccessToken(user._id)
@@ -34,12 +45,17 @@ class authController {
 
     async login(req, res) {
         try {
-            console.log('req body', req.body)
             const {email, password} = req.body
             const user = await User.findOne({email})
 
             if (!user) {
-                return res.status(400).json({message: 'user with this email not found'})
+                return res.status(400).json({
+                    errors: {
+                        email: {
+                            message: 'user with this email not found'
+                        }
+                    }
+                })
             }
 
             const isValid = bcrypt.compareSync(password, user.password)
@@ -58,6 +74,7 @@ class authController {
         }
 
     }
+
     async getAuthUser(req, res) {
         try {
             const token = req.headers.authorization.split(' ')[1]
@@ -81,7 +98,7 @@ class authController {
 
 export function publicUserData(user) {
     return {
-        id: user._id,
+        _id: user._id,
         name: user?.name,
         email: user?.email,
         phone: user?.phone,

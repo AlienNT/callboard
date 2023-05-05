@@ -10,15 +10,24 @@ const routes = [
     {
         path: '/:id',
         name: 'product',
-        component: () => import('../components/pages/VProductPage.vue')
+        component: () => import('../components/pages/VProductPage.vue'),
+    },
+    {
+        path: '/:id/edit',
+        name: 'edit',
+        component: () => import('../components/pages/VAnnouncementPage.vue'),
+        beforeEnter: () => {
+            const {_id} = store.getters['getAuthUser']
+            if (!_id) return '/'
+        },
     },
     {
         path: '/new-announcement',
         name: 'newProduct',
         component: () => import('../components/pages/VAnnouncementPage.vue'),
         beforeEnter: () => {
-            const {id} = store.getters['getAuthUser']
-            if (!id) return '/'
+            const {_id} = store.getters['getAuthUser']
+            if (!_id) return '/'
         },
     },
     {

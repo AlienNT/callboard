@@ -19,8 +19,10 @@ const router = Router()
 /**
  *
  */
-    .get('/announcements', announcementController.getAnnouncements)
-    .get('/announcements/:id', announcementController.getAnnouncementById)
-    .post('/announcements', authMiddleware, announcementController.createAnnouncement)
-    // .patch('/announcements', authMiddleware, announcementController.update)
+    .get('/announcements', announcementController.getAll)
+    .get('/announcements/:id', announcementController.get)
+    .get('/announcementsByAuthor', announcementController.getByAuthorId)
+    .patch('/announcements/:id', authMiddleware, announcementController.update)
+    .delete('/announcements/:id', authMiddleware, announcementController.delete)
+    .post('/announcements', authMiddleware, announcementController.create)
 export default router

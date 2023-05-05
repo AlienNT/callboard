@@ -14,6 +14,7 @@ $size: 6px;
 
   ::-webkit-scrollbar-thumb {
     background: $thumbColor;
+
     &:hover {
       background: lighten($thumbColor, 10%);
     }

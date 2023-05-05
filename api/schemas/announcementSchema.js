@@ -25,20 +25,13 @@ export const AnnouncementSchema = new Schema({
         required: false,
         default: 0
     },
-    updated_at: {
-        type: Date,
-        default: Date.now
-    },
-    created_at: {
-        type: Date,
-        default: Date.now
-    },
-    deleted_at: {
-        type: Date,
-        default: null
-    },
     active: {
         type: Boolean,
         default: true
     }
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
+    },
 })

@@ -1,139 +1,198 @@
 <template>
-  <div
-      class="v-product-page"
-  >
-    <div
-        class="product-page__image"
+	<div
+		class="v-product-page"
+	>
+		<div
+			class="product-page__image"
 
-    >
-      <VImage
-          :alt="product?.title"
-          :src="product?.image"
-          height="70%"
-          object-fit="cover"
-          background="rgb(46, 78, 105, 0.8)"
-          @onClick="toggleImage"
-      />
-      <transition
-          name="fade"
-          appear
-      >
-        <div
-            v-if="isOpen"
-            class="opened-image"
-            @click.stop="toggleImage"
-        >
-          <img
-              :alt="product?.title"
-              :src="product?.image"
-          />
-        </div>
-      </transition>
-    </div>
-    <div class="product-page-info">
-      <div
-          class="product-page__item product-page__title title"
-      >
-        {{ product?.title }}
-      </div>
-      <div
-          class="product-page__item product-page__description"
-      >
-        {{ product?.description }}
-      </div>
-      <div
-          class="product-page__item product-page__contacts"
-      >
-        <div
-            class="product-page__item product-page__price"
-        >
-          {{ product?.price }}$
-        </div>
-        <router-link
-            :to="`/user-announcements/${author?._id}`"
-            v-if="shortName"
-            class="name"
-        >
-          {{name}}
-          <span class="logo">{{ shortName }}</span>
-        </router-link>
-        <a
-            v-if="phone"
-            class="phone"
-            :href="'tel:' + phone"
-        >
-          {{ phone }}
-        </a>
-        <a
-            v-if="email"
-            class="email"
-            :href="'mailto:' + email"
-        >
-          {{ email }}
-        </a>
-      </div>
-    </div>
-  </div>
+		>
+			<VImage
+				:alt="product?.title"
+				:src="product?.image"
+				background="rgb(46, 78, 105, 0.8)"
+				height="70%"
+				object-fit="cover"
+				@onClick="toggleImage"
+			/>
+			<transition
+				appear
+				name="fade"
+			>
+				<div
+					v-if="isOpen"
+					class="opened-image"
+					@click.stop="toggleImage"
+				>
+					<img
+						:alt="product?.title"
+						:src="product?.image"
+					/>
+				</div>
+			</transition>
+		</div>
+		<div class="product-page-info">
+			<div
+				v-if="product?.title"
+				class="product-page__item product-page__title title"
+			>
+				{{ product.title }}
+			</div>
+			<div
+				v-if="product?.description"
+				class="product-page__item product-page__description"
+			>
+				{{ product.description }}
+			</div>
+			<div
+				class="product-page__item product-page__contacts"
+			>
+				<div
+					v-if="product?.price"
+					class="product-page__item product-page__price"
+				>
+					{{ product.price }}$
+				</div>
+				<router-link
+					v-if="shortName"
+					:to="`/user-announcements/${author?._id}`"
+					class="name"
+				>
+					{{ name }}
+					<span class="logo">{{ shortName }}</span>
+				</router-link>
+				<a
+					v-if="phone"
+					:href="'tel:' + phone"
+					class="phone"
+				>
+					{{ phone }}
+				</a>
+				<a
+					v-if="email"
+					:href="'mailto:' + email"
+					class="email"
+				>
+					{{ email }}
+				</a>
+			</div>
+		</div>
+		<ActionButtons
+			v-if="authorship"
+			@onDelete="onDelete"
+			@onEdit="onEdit"
+		/>
+		<transition appear name="fade">
+			<VNotification
+				v-if="notification?.show"
+				:message="notification?.message"
+				:type="notification?.type"
+				@onClick="notificationResult"
+				@onClose="notification.show = false"
+			/>
+		</transition>
+	</div>
 </template>
 
 <script>
 import VImage from "@/components/VImage.vue";
+import ActionButtons from "@/components/ActionButtons.vue";
+import {checkAuthorship} from "@/store";
+import VNotification from "@/components/VNotification.vue";
 
 export default {
-  name: "VProductPage",
-  components: {
-    VImage
-  },
-  data() {
-    return {
-      isOpen: false
+    name: "VProductPage",
+    components: {
+        VNotification,
+        VImage,
+        ActionButtons
+    },
+    data() {
+        return {
+            isOpen: false,
+            notification: {
+                show: false
+            }
+        }
+    },
+    computed: {
+        id() {
+            return this.$route.params.id
+        },
+        product() {
+            return this.$store.getters['getAnnouncement'](this.id)
+        },
+        products() {
+            return this.$store.getters['getAnnouncements']
+        },
+        author() {
+            return this.product?.author
+        },
+        name() {
+            return this.author?.name
+        },
+        email() {
+            return this.author?.email
+        },
+        phone() {
+            return this.author?.phone
+        },
+        authorId() {
+            return this.author?._id
+        },
+        shortName() {
+            if (this.name) {
+                const words = this.name.split(' ')
+                return words.length > 1 ? words.map(word => word[0].toUpperCase()).join('') : words[0][0].toUpperCase()
+            }
+            return null
+        },
+        authorship() {
+            return checkAuthorship(this.authorId)
+        },
+    },
+    methods: {
+        toggleImage() {
+            this.isOpen = !this.isOpen
+        },
+        fetchAnnouncement() {
+            this.$store.dispatch('fetchAnnouncementById', this.id)
+        },
+        onEdit() {
+            this.$router.push(`/${this.id}/edit`)
+        },
+        onDelete() {
+            this.notification = {
+                show: true,
+                type: 'confirm',
+                message: 'Delete this announcement?'
+            }
+        },
+        notificationResult(e) {
+            if (e) {
+                this.deleteAnnouncement()
+                this.$router.back()
+            }
+        },
+        deleteAnnouncement() {
+            return this.$store.dispatch('deleteAnnouncement', this.id)
+        }
+    },
+    created() {
+        if (!this.product) {
+            this.fetchAnnouncement()
+        }
+    },
+    beforeUnmount() {
+        if (this.products.length <= 1) {
+            this.$store.dispatch('resetAnnouncements')
+        }
     }
-  },
-  computed: {
-    id() {
-      return this.$route.params.id
-    },
-    product() {
-      return this.$store.getters['getAnnouncement'](this.id)
-    },
-    author() {
-      return this.product?.author
-    },
-    name() {
-      return this.author?.name
-    },
-    email() {
-      return this.author?.email
-    },
-    phone() {
-      return this.author?.phone
-    },
-    shortName() {
-      if (this.name) {
-        const words = this.name.split(' ')
-        return words.length > 1 ? words.map(word => word[0].toUpperCase()).join('') : words[0][0].toUpperCase()
-      }
-      return null
-    }
-  },
-  methods: {
-    toggleImage() {
-      this.isOpen = !this.isOpen
-    },
-    fetchAnnouncement() {
-      this.$store.dispatch('fetchAnnouncementById', this.id)
-    }
-  },
-  created() {
-    if (!this.product) {
-      this.fetchAnnouncement()
-    }
-  }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .v-product-page {
+  position: relative;
   height: 100%;
   width: 100%;
   margin: auto;

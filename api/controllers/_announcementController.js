@@ -1,80 +1,123 @@
 import {Announcement} from "../models/index.js";
-import {decryptAccessToken} from "./_authController.js";
+import {decryptTokenData} from "./_authController.js";
 
 const announcementData = (payload) => {
-    return {
-        title: payload?.title,
-        description: payload?.description,
-        image: payload?.image,
-        price: payload?.price
-    }
+    const {title, description, image, price} = payload
+
+    return {title, description, image, price}
 }
 
 class announcementController {
-    async createAnnouncement(req, res) {
+    async create(req, res) {
         try {
             const data = announcementData(req.body)
-            const decryptToken = await decryptAccessToken(req.headers.authorization.split(' ')[1])
-            const user_id = decryptToken.id
-            const announce = await Announcement.create({...data, author: user_id})
+            const decryptToken = await decryptTokenData(req)
+            const announcement = await Announcement.create({...data, author: decryptToken.id})
 
-            if (announce) {
-                return res.status(200).json({data: announce})
-            }
+            if (announcement) return res.status(200).json({data: announcement})
 
         } catch (e) {
             return res.status(400).json({message: 'create error', ...e})
         }
-        return res.json({...req.body})
     }
 
-     async update(res, req) {
-         try {
-             const data = announcementData(req.body)
-             const decryptToken = await decryptAccessToken(req.headers.authorization.split(' ')[1])
-             const user_id = decryptToken.id
-             const announce = await Announcement.findOneAndUpdate({_id:data?._id, author: user_id}, data)
-             if (announce) {
+    async update(req, res) {
+        try {
+            const data = announcementData(req.body)
+            const decryptToken = decryptTokenData(req)
 
-                 return res.status(200).json({data: announce})
-             }
-         } catch (e) {
-             res.status(400).json({message: 'update error', ...e})
-         }
-     }
+            const announcement = await Announcement.findOneAndUpdate(
+                {_id: req.params.id, author: decryptToken.id},
+                {...data},
+                {returnDocument: "after"}
+            )
+            if (announcement) {
+                return res.status(200).json({
+                    data: await announcement.populate('author', ['name', 'email', 'phone'])
+                })
+            }
+            return res.status(404).json({message: 'update error. Not found'})
+        } catch (e) {
+            res.status(400).json({message: 'update error', ...e})
+        }
+    }
 
-    async getAnnouncementById(req, res) {
+    async get(req, res) {
         try {
             const {id} = req.params
-            console.log(req.params)
-            const data = await Announcement.findById(id).populate('author', ['name', 'email', 'phone'])
-            console.log('data', data)
+            const announcement = await Announcement.findById(id).populate('author', ['name', 'email', 'phone'])
 
-            res.status(200).json({data})
+            res.status(200).json({data: announcement})
         } catch (e) {
             res.status(400).json({message: 'get error', ...e})
         }
     }
 
-    async getAnnouncements(req, res) {
-        console.log('res', res)
+    async getAll(req, res) {
         try {
-            const announcements = await Announcement.find().populate('author', ['name', 'email', 'phone'])
+            const query = req?.query;
+            const page = query?.page || 1
+            const limit = query?.limit || 8
+            const sortField = query?.sortField || 'updated_at'
+            const sortMode = query?.sortMode || 'desc'
+            const sortFilter = {}
+
+            sortFilter[`${sortField}`] = sortMode
+
+            const announcements = await Announcement
+                .find()
+                .sort(sortFilter)
+                .limit(limit)
+                .skip((page - 1) * limit)
+                .populate('author', ['name', 'email', 'phone'])
+            const count = await Announcement.estimatedDocumentCount()
+            const pages = Math.ceil(count / limit)
+            const nextPage = +page < +pages ? +page + 1 : null
+
             if (announcements) {
-                return res.status(200).json({data: announcements})
+                return res
+                    .status(200)
+                    .json({data: announcements, pages: {page, nextPage, pages}})
             }
         } catch (e) {
+            console.log(e)
             res.status(400).json({message: 'get error', ...e})
         }
     }
 
-    /*async delete(req, res) {
+    async getByAuthorId(req, res) {
         try {
-            const decryptToken = await decryptAccessToken(req.headers.authorization.split(' ')[1])
-        } catch (e) {
+            const decryptToken = decryptTokenData(req)
 
+            const announcement = await Announcement.find({author: decryptToken.id}).populate('author', ['name', 'email', 'phone'])
+            if (announcement) {
+                return res.status(200).json({
+                    data: announcement
+                })
+            }
+            return res.status(404).json({message: 'get error. Not found'})
+        } catch (e) {
+            res.status(400).json({message: 'get error', ...e})
         }
-    }*/
+    }
+
+    async delete(req, res) {
+        try {
+            const decryptToken = await decryptTokenData(req)
+
+            const announcement = await Announcement.deleteOne(
+                {_id: req.params.id, author: decryptToken.id}
+            )
+            if (announcement) {
+                return res.status(200).json({
+                    data: {_id: req.params.id}
+                })
+            }
+            return res.status(404).json({message: 'delete error. Not found'})
+        } catch (e) {
+            res.status(400).json({message: 'delete error', ...e})
+        }
+    }
 }
 
 export default new announcementController()

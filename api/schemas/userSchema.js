@@ -25,13 +25,10 @@ export const UserSchema = new Schema({
     },
     announcements: [{
         type: Schema.Types.ObjectId, ref: 'Announcement'
-    }],
-    created_at: {
-        type: Date,
-        default: Date.now()
-    },
-    updated_at: {
-        type: Date,
-        default: Date.now()
+    }]
+}, {
+    timestamps: {
+        createdAt: 'created_at',
+        updatedAt: 'updated_at'
     },
 })

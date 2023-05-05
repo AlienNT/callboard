@@ -1,42 +1,55 @@
 <template>
-  <div class="main-wrapper">
-    <div class="header-wrapper">
-      <VHeader></VHeader>
-    </div>
-    <div class="content-wrapper">
-      <div class="container">
-<!--        <router-view v-slot="{ Component, route }">
-          <transition
-              :name="route.meta.transition || 'list'"
-              appear
-          >
-            <component :is="Component" />
-          </transition>
-        </router-view>-->
-
-        <router-view/>
-      </div>
-    </div>
-  </div>
+	<div class="main-wrapper">
+		<div class="header-wrapper">
+			<VHeader></VHeader>
+		</div>
+		<div class="content-wrapper">
+			<div class="container">
+				<router-view/>
+			</div>
+		</div>
+	</div>
 </template>
 <script>
 //todo fix animation
 import VHeader from "@/components/VHeader.vue";
 
 export default {
-  name: "App",
-  components: {
-    VHeader
-  },
-  methods: {
-    async fetchAnnouncements() {
-      this.$store.dispatch('fetchAnnouncements')
+    name: "App",
+    components: {
+        VHeader
+    },
+    data() {
+        return {
+            windowHeight: 0
+        }
+    },
+    methods: {
+        async fetchAnnouncements() {
+            this.$store.dispatch('fetchAnnouncements')
+        },
+        setVH(value) {
+            document.documentElement.style.setProperty('--vh', `${value * 0.01}px`)
+        },
+    },
+    watch: {
+        windowHeight: {
+            handler(e) {
+                this.setVH(e)
+            },
+            immediate: true
+        }
+    },
+    mounted() {
+        // this.fetchAnnouncements()
+        document.title = 'Genshin Bulletin Board'
+        window.onload = () => {
+            this.windowHeight = window.innerHeight
+        }
+        window.onresize = () => {
+            this.windowHeight = window.innerHeight
+        }
     }
-  },
-  mounted() {
-    this.fetchAnnouncements()
-    document.title = 'Genshin Bulletin Board'
-  }
 }
 </script>
 <style lang="scss">
@@ -66,6 +79,7 @@ export default {
   padding-bottom: 30px;
   background: rgba(148, 184, 215, 0.81);
   overflow-x: hidden;
+
   .container {
     min-height: 100%;
     display: flex;

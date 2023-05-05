@@ -15,6 +15,11 @@ ul, ol {
   list-style: none;
 }
 
+button {
+  outline: none;
+  border: none;
+}
+
 textarea {
   resize: none;
 }
@@ -84,12 +89,31 @@ input[type=number] {
   background: #3e5871;
 }
 
+@keyframes errorAnimate {
+  0%, 50%, 100% {
+    transform: translate(2px);
+  }
+  25%, 75% {
+    transform: translate(-2px);
+  }
+}
+@keyframes successAnimate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+}
 * {
   font-family: "Open Sans", sans-serif;
 }
 
 .title {
   font-weight: 600;
+}
+.title:first-letter {
+  text-transform: uppercase;
 }
 
 html, body {
@@ -116,6 +140,10 @@ html, body {
 .col {
   padding-left: 15px;
   padding-right: 15px;
+}
+
+button {
+  cursor: pointer;
 }
 
 input, textarea {
@@ -146,6 +174,53 @@ input:hover, textarea:hover {
 [disabled] {
   opacity: 0.5;
   cursor: default;
+}
+
+.form-title {
+  font-size: 20px;
+  text-align: center;
+  color: #2c3e50;
+  width: 100%;
+  margin-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  transition: color, background-color 0.5s ease;
+}
+.form-title:first-letter {
+  text-transform: uppercase;
+}
+.form-success .form-title {
+  color: white;
+  background: green;
+}
+.form-error .form-title {
+  color: white;
+  background: red;
+}
+
+.form-submit {
+  transition: background-color 0.5s ease;
+}
+.form-success .form-submit {
+  background-color: green;
+}
+.form-error .form-submit {
+  background-color: red;
+}
+
+.form-error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.form-error {
+  box-shadow: 0 0 4px red;
+  animation: errorAnimate 0.5s ease reverse;
+}
+
+.form-success {
+  box-shadow: 0 0 4px green;
+  animation: successAnimate 0.8s ease reverse;
 }
 
 /*# sourceMappingURL=main.css.map */

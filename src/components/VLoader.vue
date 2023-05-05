@@ -1,23 +1,23 @@
 <template>
-  <div class="v-loader">
-    <div class="v-loader__wrapper">
-      <img
-          :src="src"
-          alt="loader image"
-          class="v-loader__item"
-      >
-    </div>
-  </div>
+	<div class="v-loader">
+		<div class="v-loader__wrapper">
+			<img
+				:src="src"
+				alt="loader image"
+				class="v-loader__item"
+			>
+		</div>
+	</div>
 </template>
 
 <script>
 export default {
-  name: "VLoader",
-  computed: {
-    src() {
-      return require('../assets/images/g-cryo.png')
+    name: "VLoader",
+    computed: {
+        src() {
+            return require('../assets/images/g-cryo.png')
+        }
     }
-  }
 }
 </script>
 

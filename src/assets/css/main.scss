@@ -1,6 +1,7 @@
 @import "normalize";
 @import "transition";
 @import "scrollbar";
+@import "animations";
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;500;600&display=swap');
 
 $firstColor: #ccc;
@@ -9,9 +10,15 @@ $secondColor: #444;
   font-family: 'Open Sans', sans-serif;
 
 }
+
 .title {
   font-weight: 600;
+
+  &:first-letter {
+    text-transform: uppercase;
+  }
 }
+
 html, body {
   overflow-y: hidden;
   overflow-x: hidden;
@@ -37,12 +44,19 @@ html, body {
   padding-left: 15px;
   padding-right: 15px;
 }
+
+button {
+  cursor: pointer;
+}
+
 input, textarea {
   transition: .2s ease;
+
   &:hover {
     box-shadow: 0 0 6px 1px rgba(49, 85, 124, 0.66);
   }
 }
+
 .submit {
   display: block;
   border: none;
@@ -53,9 +67,11 @@ input, textarea {
   font-size: 14px;
   cursor: pointer;
   transition: .2s ease;
+
   &:first-letter {
     text-transform: uppercase;
   }
+
   &:hover {
     box-shadow: 0 0 6px 1px #58a6f8;
   }
@@ -65,4 +81,52 @@ input, textarea {
   opacity: 0.5;
   cursor: default;
 }
+.form-title {
+  font-size: 20px;
+  text-align: center;
+  color: #2c3e50;
+  width: 100%;
+  margin-bottom: 15px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  transition: color, background-color .5s ease;
+  &:first-letter {
+    text-transform: uppercase;
+  }
 
+  .form-success & {
+    color: white;
+    background: green;
+  }
+
+  .form-error & {
+    color: white;
+    background: red;
+  }
+}
+.form-submit {
+  transition: background-color .5s ease;
+
+  .form-success & {
+    background-color: green;
+  }
+
+  .form-error & {
+    background-color: red;
+  }
+}
+
+.form-error-message {
+  color: red;
+  font-size: 12px;
+}
+
+.form-error {
+  box-shadow: 0 0 4px red;
+  animation: errorAnimate .5s ease reverse;
+}
+
+.form-success {
+  box-shadow: 0 0 4px green;
+  animation: successAnimate .8s ease reverse;
+}

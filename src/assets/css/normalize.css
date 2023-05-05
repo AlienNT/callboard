@@ -1,47 +1,51 @@
 * {
-  margin: 0;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: monospace, sans-serif;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: monospace, sans-serif;
 }
 
 img {
-  display: block;
+    display: block;
 }
 
 ul, ol {
-  padding: 0;
-  list-style: none;
+    padding: 0;
+    list-style: none;
 }
+
 .title {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 textarea {
-  resize: none;
+    resize: none;
 }
 
 label, input, textarea {
-  width: 100%;
-  display: block;
-  border: none;
+    width: 100%;
+    display: block;
+    border: none;
 }
+
 label::placeholder, input::placeholder, textarea::placeholder {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 label:focus, input:focus, textarea:focus {
-  outline: none;
-  border: none;
+    outline: none;
+    border: none;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 /*# sourceMappingURL=normalize.css.map */

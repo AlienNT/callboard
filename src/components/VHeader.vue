@@ -1,30 +1,31 @@
 <template>
-  <header class="v-header">
-    <div class="container">
-      <div class="row">
-        <div class="col logo">
-          <VLogo/>
-        </div>
-        <div v-if="isAuth" class="col add-new">
-          <div
-              class="add-new-wrapper"
-              :class="{
+	<header class="v-header">
+		<div class="container">
+			<div class="row">
+				<div class="col logo" @click.stop="onClick">
+					<VLogo/>
+				</div>
+				<div v-if="isAuth" class="col add-new">
+					<div
+						:class="{
                   'active': isEdit
                 }"
-          >
-            <router-link
-                :to="isEdit ? '/':'/new-announcement'"
-                class="add-new-btn"
+						class="add-new-wrapper"
+					>
+						<router-link
+							:title="isEdit? 'close form':'add new announcement'"
+							:to="isEdit ? '/':'/new-announcement'"
+							class="add-new-btn"
 
-            />
-          </div>
-        </div>
-        <div class="col user">
-          <VAuth/>
-        </div>
-      </div>
-    </div>
-  </header>
+						/>
+					</div>
+				</div>
+				<div class="col user">
+					<VAuth/>
+				</div>
+			</div>
+		</div>
+	</header>
 </template>
 
 <script>
@@ -32,19 +33,31 @@ import VLogo from "@/components/VLogo.vue";
 import VAuth from "@/components/auth/VAuth.vue";
 
 export default {
-  name: "VHeader",
-  components: {
-    VLogo,
-    VAuth
-  },
-  computed: {
-    isAuth() {
-      return !!this.$store.getters['getAuthUser']?.email
+    name: "VHeader",
+    components: {
+        VLogo,
+        VAuth
     },
-    isEdit() {
-      return this.$route?.path === '/new-announcement'
+    computed: {
+        isAuth() {
+            return !!this.$store.getters['getAuthUser']?.email
+        },
+        isEdit() {
+            return this.$route?.path === '/new-announcement'
+        }
+    },
+    methods: {
+        onClick() {
+            if (this.$route?.path !== '/') return
+            const el = document.querySelector('.content-wrapper')
+            if (el) {
+                el.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                })
+            }
+        }
     }
-  }
 }
 </script>
 
@@ -105,6 +118,7 @@ export default {
     .add-new-btn {
       transform: rotate(45deg);
     }
+
     &:hover {
       .add-new-btn {
         transform: scale(0.95) rotate(45deg);

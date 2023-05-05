@@ -1,0 +1,17 @@
+@keyframes errorAnimate {
+  0%, 50%, 100% {
+    transform: translate(2px);
+  }
+  25%, 75% {
+    transform: translate(-2px);
+  }
+}
+
+@keyframes successAnimate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(.98);
+  }
+}
