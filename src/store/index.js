@@ -156,6 +156,9 @@ const store = createStore({
         setAnnouncementPages({commit}, pages) {
             commit('setAnnouncementPages', pages)
         },
+        setAnnouncements({commit}, payload) {
+            commit('setAnnouncements', payload)
+        },
         async fetchAnnouncementById({commit}, id) {
             const response = await httpRequest('get', `/announcements/${id}`)
             const {data} = response?.data

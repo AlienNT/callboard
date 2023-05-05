@@ -91,7 +91,7 @@ export default {
             return this.$route.params.authorId
         },
         userAnnouncements() {
-            return this.announcements
+            return this.$store.getters['getAnnouncements']
         },
         date() {
             return this.formattedDate(this.authorInfo?.created_at)
@@ -106,7 +106,7 @@ export default {
             const response = await httpRequest('get', `/announcementsByAuthor`)
             const {data} = response?.data
 
-            this.announcements = data
+            await this.$store.dispatch('setAnnouncements', data)
             this.loading = false
         },
         async fetchUser() {
@@ -146,7 +146,7 @@ export default {
   flex: 1 1 75%;
   position: relative;
   min-height: 200px;
-	display: flex;
+  display: flex;
 
   .loader {
     top: 0;
@@ -195,6 +195,7 @@ export default {
     text-transform: uppercase;
   }
 }
+
 .not-found {
   margin: auto;
 }
