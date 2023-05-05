@@ -105,7 +105,6 @@ export default {
         async fetchUserAnnouncements() {
             const response = await httpRequest('get', `/announcementsByAuthor`)
             const {data} = response?.data
-
             await this.$store.dispatch('setAnnouncements', data)
             this.loading = false
         },
